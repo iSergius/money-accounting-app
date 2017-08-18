@@ -11,6 +11,7 @@ android:
   - sys-img-armeabi-v7a-android-22
 
 before_script:
+  - echo no | android list targets
   - echo no | android create avd -f -n test -t "android-22" --abi armeabi-v7a
   - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
