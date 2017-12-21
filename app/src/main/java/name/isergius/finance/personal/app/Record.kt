@@ -8,8 +8,8 @@ data class Record(val amount: MoneyAmount,
                   val type: Type) {
 
     enum class Type(val color: Int) {
-        EXPENSE(R.color.expense),
-        INCOME(R.color.income)
+        EXPENSE(R.color.expenseColor),
+        INCOME(R.color.incomeColor)
     }
 
 }
