@@ -5,7 +5,8 @@ package name.isergius.finance.personal.app
  */
 data class Record(val amount: MoneyAmount,
                   val description: String,
-                  val type: Type) {
+                  val type: Type)
+    : ItemHolderData() {
 
     enum class Type(val color: Int) {
         EXPENSE(R.color.expenseColor),
