@@ -1,4 +1,4 @@
-package name.isergius.finance.personal.app
+package name.isergius.finance.personal.app.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -10,6 +10,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import com.jakewharton.rxbinding2.view.RxView
+import io.reactivex.android.schedulers.AndroidSchedulers
+
+import name.isergius.finance.personal.app.R
+import name.isergius.finance.personal.app.components.rxList.ReactiveRecyclerAdapter
+import name.isergius.finance.personal.app.components.rxRecordList.ReactiveRecordViewHolder
+import name.isergius.finance.personal.app.data.RecordsInteractorMemory
+import name.isergius.finance.personal.app.model.Record
 
 /**
  * @author Sergey kondratyev
@@ -18,30 +26,24 @@ class ListRecordsFragment : Fragment() {
 
     private val TAG: String = this.javaClass.canonicalName
 
-    private var recordsInteractor: RecordsInteractor? = null
-    private var mRecordsDataList: DataList<Record, ConfigList>? = null
-    private var adapter: ListAdapter? = null
+    private var recordsInteractor: RecordsInteractorMemory = RecordsInteractorMemory()
+    private var mAdapter: ReactiveRecyclerAdapter<Record>
+            = ReactiveRecyclerAdapter(ReactiveRecordViewHolder.Factory())
     private var mListener: OnFragmentInteractionListener? = null
 
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        Log.v(TAG, "begin onCreateView()")
-        val recordItem = ItemHolderSupport(holderBuilder = { RecordItemHolder(it) }, layout = R.layout.item_record, parent = container)
-        val downloadItem = ItemHolderSupport(holderBuilder = { DownloadItemHolder(it) }, layout = R.layout.item_loading, parent = container)
-        Log.v(TAG, "create items")
-        recordsInteractor = (context?.applicationContext as App).getRecordsInteractor()
         val view = inflater.inflate(R.layout.fragment_list_records, container, false)
-        Log.v(TAG, "inflated viev: $view")
         val listRecords = view.findViewById<RecyclerView>(R.id.list_records)
         listRecords.layoutManager = LinearLayoutManager(container?.context)
-        mRecordsDataList = RecordsDataList(recordsInteractor!!.getAll(), listRecords.getFlowableScroll())
-        Log.d(TAG, "mRecordsDataList $mRecordsDataList")
-        listRecords.adapter = ListAdapter(mapOf(Pair(0, recordItem), Pair(1, downloadItem)), mRecordsDataList!!)
-
-        view.findViewById<ImageButton>(R.id.add_record_btn).setOnClickListener { Log.d(TAG, "onClick add_record_btn") }
-        Log.v(TAG, "before return onCreateView()")
+        listRecords.adapter = mAdapter
+        recordsInteractor.getData(10)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(mAdapter.data)
+        RxView.clicks(view.findViewById<ImageButton>(R.id.add_record_btn))
+                .map { Log.d(TAG, "onClick add_record_btn") }
         return view
     }
 

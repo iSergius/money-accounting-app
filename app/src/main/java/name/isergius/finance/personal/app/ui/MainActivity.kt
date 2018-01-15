@@ -1,8 +1,10 @@
-package name.isergius.finance.personal.app
+package name.isergius.finance.personal.app.ui
 
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import name.isergius.finance.personal.app.R
+
 
 class MainActivity : AppCompatActivity(), ListRecordsFragment.OnFragmentInteractionListener {
 

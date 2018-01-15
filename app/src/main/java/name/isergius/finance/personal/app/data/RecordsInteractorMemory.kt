@@ -1,18 +1,19 @@
-package name.isergius.finance.personal.app
+package name.isergius.finance.personal.app.data
 
-import android.util.Log
 import io.reactivex.Flowable
 import io.reactivex.rxkotlin.toFlowable
+import name.isergius.finance.personal.app.domain.RecordsInteractor
+import name.isergius.finance.personal.app.model.MoneyAmount
+import name.isergius.finance.personal.app.model.Record
 import java.math.BigDecimal
 
 /**
  * @author Sergey Kondratyev
  */
 class RecordsInteractorMemory : RecordsInteractor {
-
     private val TAG: String = this.javaClass.canonicalName
 
-    private val items = listOf(
+    val items = listOf(
             Record(MoneyAmount(BigDecimal("702.16"), "US"), "Ticket", Record.Type.EXPENSE),
             Record(MoneyAmount(BigDecimal("9230.00"), "US"), "Gifts", Record.Type.EXPENSE),
             Record(MoneyAmount(BigDecimal("167.14"), "US"), "Hotel", Record.Type.EXPENSE),
@@ -51,10 +52,8 @@ class RecordsInteractorMemory : RecordsInteractor {
             Record(MoneyAmount(BigDecimal("9243504.00"), "US"), "Payment for the project", Record.Type.INCOME)
     )
 
-    override fun getAll(): Flowable<Record> {
-        Log.v(TAG, "getAll()")
+    override fun getData(count: Int): Flowable<List<Record>> {
         return items.toFlowable()
+                .buffer(count)
     }
-
-
 }

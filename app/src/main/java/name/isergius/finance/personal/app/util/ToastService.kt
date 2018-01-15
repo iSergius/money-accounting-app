@@ -1,4 +1,4 @@
-package name.isergius.finance.personal.app
+package name.isergius.finance.personal.app.util
 
 import android.content.Context
 import android.widget.Toast

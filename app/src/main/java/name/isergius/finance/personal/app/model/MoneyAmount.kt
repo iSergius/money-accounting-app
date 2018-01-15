@@ -1,4 +1,4 @@
-package name.isergius.finance.personal.app
+package name.isergius.finance.personal.app.model
 
 import java.math.BigDecimal
 import java.text.NumberFormat
