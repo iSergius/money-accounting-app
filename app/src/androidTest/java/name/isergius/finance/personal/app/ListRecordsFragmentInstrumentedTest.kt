@@ -6,7 +6,6 @@ import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
-import name.isergius.finance.personal.app.ui.MainActivity
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -15,7 +14,7 @@ import org.junit.runner.RunWith
  * @author Sergey Kondratyev
  */
 @RunWith(AndroidJUnit4::class)
-class MainActivityInstrumentedTest {
+class ListRecordsFragmentInstrumentedTest {
 
     @Rule
     @JvmField
